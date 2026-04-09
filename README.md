@@ -1,95 +1,77 @@
 # Savorka Solar ERP
 
-A full-stack CRM system for solar energy sales management.
+A full-stack CRM system for solar energy sales management built with Django and React.
+
+📖 **[Full Application Manual → docs/MANUAL.md](docs/MANUAL.md)**
+
+---
+
+## Manual Update Policy
+
+> **Whenever a new feature is added, modified, or removed, update [docs/MANUAL.md](docs/MANUAL.md) accordingly.**
+>
+> This keeps documentation in sync with the codebase at all times.
+> - Update the relevant feature section
+> - Add a row to the **Change Log** table at the bottom of the manual
+> - Include the date and a brief description of the change
+
+---
 
 ## Features
 
 - Lead management with sales pipeline tracking
 - Status pipeline: New → Contacted → Qualified → Site Visit → Proposal → Won → Lost
-- Assign leads to sales users
-- Activity notes tracking
-- Filtering by status and city
-- REST API with pagination
+- Assign leads to sales users (admin only)
+- Activity notes and engagement tracking
+- Tasks management with priority and due dates
+- Marketing campaigns and broadcast messaging
+- JWT authentication with role-based access
+- Filtering and ordering on all list endpoints
 
 ## Tech Stack
 
-- Backend: Django + Django REST Framework
-- Frontend: React
-- Database: SQLite (development)
+- **Backend:** Django 6 + Django REST Framework
+- **Frontend:** React 19 + Tailwind CSS
+- **Database:** SQLite (development)
+- **Auth:** JWT via djangorestframework-simplejwt
 
-## Setup
+## Local Setup Instructions
 
 ### Backend
 
-1. Navigate to backend directory:
-   ```bash
-   cd backend
-   ```
-
-2. Create virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install djangorestframework django-cors-headers django-filter
-   ```
-
-4. Run migrations:
-   ```bash
-   python manage.py migrate
-   ```
-
-5. Create superuser:
-   ```bash
-   python manage.py createsuperuser
-   ```
-
-6. Run server:
-   ```bash
-   python manage.py runserver 0.0.0.0:8000
-   ```
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
 
 ### Frontend
 
-1. Navigate to frontend directory:
-   ```bash
-   cd frontend
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start development server:
-   ```bash
-   npm start
-   ```
+```bash
+cd frontend
+npm install
+npm start
+```
 
 ## Environment Variables
 
-For production, set the following environment variables:
-
-- `DEBUG`: Set to `False` for production
-- `SECRET_KEY`: Django secret key
-- `ALLOWED_HOSTS`: Comma-separated list of allowed hosts
-- `CORS_ALLOWED_ORIGINS`: Comma-separated list of allowed origins (for development, allow all)
+| Variable            | Description                        | Default              |
+|---------------------|------------------------------------|----------------------|
+| `SECRET_KEY`        | Django secret key                  | insecure dev key     |
+| `DEBUG`             | Enable debug mode                  | `True`               |
+| `ALLOWED_HOSTS`     | Django allowed hosts               | `localhost,127.0.0.1` |
+| `REACT_APP_API_URL` | Backend API URL for React app      | `http://localhost:8000/api/` |
 
 ## API Endpoints
 
-- `GET/POST/PUT/PATCH/DELETE /api/leads/` - Lead CRUD
-- `GET/POST/PUT/PATCH/DELETE /api/notes/` - Note CRUD
+See [docs/MANUAL.md — Section 6](docs/MANUAL.md#6-api-overview) for the full API reference.
 
-## Usage in GitHub Codespaces
-
-The application is configured to work in GitHub Codespaces:
-
-- Backend runs on `0.0.0.0:8000`
-- Frontend runs on port 3000
-- API calls use the Codespaces public URL dynamically
-- CORS is configured for development
-
-Update `.env` in frontend if needed for custom API URL.
+Key routes:
+- `POST /api/auth/login/` — get JWT token
+- `GET /api/leads/` — list leads
+- `GET /api/tasks/` — list tasks
+- `GET /api/campaigns/` — list campaigns
+- `GET /api/users/` — list users
